@@ -1,0 +1,12 @@
+
+    <resources>
+        <color name="colorPrimary">#27A96C</color>
+        <color name="colorPrimaryDark">#1D8756</color>
+        <color name="textColorPrimary">#FFFFFF</color>
+        <color name="windowBackground">#FFFFFF</color>
+        <color name="navigationBarColor">#000000</color>
+        <color name="colorAccent">#27A96C</color>
+        <color name="textGrey">#303639</color>
+    </resources>
+
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:title="Settings">
+
+    <PreferenceCategory android:title="Customize your settings">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pluginnotification"
+            android:summary="Turn ON/OFF plugin notification"
+            android:title="Plug in"></CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="plugoutnotification"
+            android:summary="Turn ON/OFF plugout notification"
+            android:title="Plug out"></CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="batterylownotification"
+            android:summary="Turn ON/OFF battery status low notification"
+            android:title="Battery status low"></CheckBoxPreference>
+    </PreferenceCategory>
+</PreferenceScreen>
