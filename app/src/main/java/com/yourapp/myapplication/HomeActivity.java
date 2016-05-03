@@ -26,6 +26,7 @@ import com.yourapp.fragment.BatteryFragment;
 import com.yourapp.fragment.MovetoSDCardFragment;
 import com.yourapp.fragment.NetworkUsageFragment;
 import com.yourapp.fragment.RunningAppFragment;
+import com.yourapp.fragment.TutorialFragment;
 
 
 public class HomeActivity extends ActionBarActivity implements MySlidingAdapter.OnSlidingClickInterface {
@@ -178,6 +179,11 @@ public class HomeActivity extends ActionBarActivity implements MySlidingAdapter.
             } catch (android.content.ActivityNotFoundException anfe) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
             }
+        }
+
+        if (id == R.id.action_tutorial) {
+            fragment(new TutorialFragment(), "App_Fragment");
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

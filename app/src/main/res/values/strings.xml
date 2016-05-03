@@ -5,6 +5,14 @@
     <string name="action_settings">Settings</string>
     <string name="action_updates">Check for Updates</string>
     <string name="action_home">Home</string>
+    <string name="action_tutorial">Tutorial</string>
+    <string name="tutorial_text"><b>Backup and Restore:</b>\nIf your phone has inbuilt storage, the default backup location will probably be the internal storage card and not the external. This is because the phone reports the storage that way. If you intend to do a factory reset on the phone, please make sure default backup folder is in your external SD card before doing it. If not, <b>please copy the entire backup folder ("BatteryMaster" by default) to your external SD card or in your computer</b>.\n\n<b>Running apps:</b>
+\nThe Advanced Task Manager can list all the running tasks on your phone. Battery master(App master) will give you all the running app perfectly compared to other apps.\n\n<b>Playstore Apps and All Apps:</b>
+\nThe Application Manager can list all the playstore apps and system apps on your phone. This module will separate system apps and playstore apps on your device.\n\n</string>
+    <string name="tutorial_next_text"><b>Move to SD Card:</b>\nAre you running out of application storage? Do you hate having to check each and every app if it supports moving to the SD card. This component streamlines the movement of apps to on your device external or internal storage through your device Settings. With this, you will have more control over your ever expanding collection of apps. This is crucial to anyone who has memory management issues.\n\n<b>Disable apps:</b>\n
+You do not care for all the apps your carrier adds to Android? Well, now you can get rid of them! .This component enables you to disable system (built-in) apps from the app drawer.\n\n<b>App Usage:</b>
+<b>Mobile App Usage:</b>\nSee how much time you spend on each of your apps.\n<b>Track Phone Usage:</b>\nSee how much time you spend on phone calls.\n<b>Usage Manager:</b>\nFind unused apps to free up the space on your device.\n<b>Resource Friendly:</b>\nLow battery, memory and CPU usage.\n<b>Consumption manager:</b>\nSave money, maximize how you use your data\n\n<b>Network Usage:</b>\n
+Use My Data Manager to track how much data you use, monitor what apps are using the most data, and get alerts before you run out of data and get charged unnecessary overage fees.\n\n<b>Note: After you have updated or recharged your data card. Please restart your mobile and check your data usage of application.</b></string>
     <string name="openDrawer">Settings</string>
     <string name="closeDrawer">Settings</string>
     <string name="open_app_usage_setting">Open Apps with usage access settings</string>
@@ -13,4 +21,5 @@
         statistics. You may need to enable access
         for this app through Settings > Security > Apps with usage access
     </string>
+    <string name="internet_connection">No internet connection!!!</string>
 </resources>
