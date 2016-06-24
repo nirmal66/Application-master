@@ -1,6 +1,5 @@
 package com.yourapp.fragment;
 
-import android.app.ProgressDialog;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.yourapp.adapter.ApplicationAdapter;
-import com.yourapp.adapter.MyApplicationAdapter;
+import com.yourapp.businesslogic.AnalyticsApplication;
 import com.yourapp.businesslogic.Utilities;
 import com.yourapp.myapplication.R;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +28,7 @@ public class PlaystoreappFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ApplicationInfo> mappList;
     private Utilities utilities =new Utilities();
+    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -52,7 +53,17 @@ public class PlaystoreappFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication)getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+
         return view;
     }
 
+    @Override
+    public void onResume() {
+        mTracker.setScreenName("PlayStore App Fragment");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        super.onResume();
+    }
 }

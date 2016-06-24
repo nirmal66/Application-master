@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.yourapp.businesslogic.AnalyticsApplication;
 import com.yourapp.businesslogic.Utilities;
 import com.yourapp.myapplication.R;
 
@@ -22,6 +25,7 @@ public class TutorialFragment extends Fragment {
     private Button checkTutorial;
     Utilities ut = new Utilities();
     private CoordinatorLayout coordinatorLayout;
+    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -60,8 +64,16 @@ public class TutorialFragment extends Fragment {
                  }
             }
         });
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication)getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
-
+    @Override
+    public void onResume() {
+        mTracker.setScreenName("Tutorial Fragment");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        super.onResume();
+    }
 
 }

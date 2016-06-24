@@ -2,7 +2,6 @@ package com.yourapp.fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,23 +15,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yourapp.adapter.ApplicationAdapter;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.yourapp.adapter.MovetoSDCardAdapter;
+import com.yourapp.businesslogic.AnalyticsApplication;
 import com.yourapp.businesslogic.OnClickInterface;
 import com.yourapp.businesslogic.Utilities;
 import com.yourapp.myapplication.R;
 
-import java.util.Collections;
 import java.util.List;
 
-public class MovetoSDCardFragment extends Fragment implements OnClickInterface
-{
+public class MovetoSDCardFragment extends Fragment implements OnClickInterface {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<PackageInfo> mappList;
     private Utilities utilities = new Utilities();
-
+    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -47,7 +46,7 @@ public class MovetoSDCardFragment extends Fragment implements OnClickInterface
         mappList = getActivity().getPackageManager().getInstalledPackages(PackageManager.GET_ACTIVITIES);
 
         Log.d("oncreate", "create installed");
-        mAdapter = new MovetoSDCardAdapter(utilities.movetosdCard(mappList), getActivity(),this);
+        mAdapter = new MovetoSDCardAdapter(utilities.movetosdCard(mappList), getActivity(), this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view_app);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -57,6 +56,16 @@ public class MovetoSDCardFragment extends Fragment implements OnClickInterface
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication)getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
+    @Override
+    public void onResume() {
+        mTracker.setScreenName("Move to SD Card Fragment");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        super.onResume();
     }
 
     @Override
@@ -67,7 +76,7 @@ public class MovetoSDCardFragment extends Fragment implements OnClickInterface
             intent.setData(Uri.parse("package:" + packageName));
             startActivity(intent);
 
-        } catch ( ActivityNotFoundException e ) {
+        } catch (ActivityNotFoundException e) {
             //e.printStackTrace();
 
             //Open the generic Apps page:

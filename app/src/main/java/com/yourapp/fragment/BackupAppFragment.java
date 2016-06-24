@@ -15,7 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.yourapp.adapter.BackupAppAdapter;
+import com.yourapp.businesslogic.AnalyticsApplication;
 import com.yourapp.businesslogic.OnClickInterface;
 import com.yourapp.myapplication.R;
 
@@ -28,6 +31,7 @@ public class BackupAppFragment extends Fragment implements OnClickInterface{
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView backup;
     private ImageView backupIcon;
+    private Tracker mTracker;
 
     File folder = new File(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster/");
     File[] mappList = folder.listFiles();
@@ -66,6 +70,17 @@ public class BackupAppFragment extends Fragment implements OnClickInterface{
             backupIcon.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
         }
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication)getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
+    @Override
+    public void onResume() {
+        mTracker.setScreenName("Restore Fragment");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        super.onResume();
     }
 
     @Override

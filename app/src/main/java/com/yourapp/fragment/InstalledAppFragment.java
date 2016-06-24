@@ -1,10 +1,7 @@
 package com.yourapp.fragment;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,17 +12,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.yourapp.adapter.MyApplicationAdapter;
+import com.yourapp.businesslogic.AnalyticsApplication;
 import com.yourapp.businesslogic.OnClickInterface;
 import com.yourapp.businesslogic.Utilities;
 import com.yourapp.myapplication.DialogCaller;
 import com.yourapp.myapplication.R;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,6 +33,7 @@ public class InstalledAppFragment extends Fragment implements OnClickInterface {
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ApplicationInfo> mappList;
     private Utilities utilities = new Utilities();
+    private Tracker mTracker;
 
     @Nullable
     @Override
@@ -60,8 +58,18 @@ public class InstalledAppFragment extends Fragment implements OnClickInterface {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication)getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
+    @Override
+    public void onResume() {
+        mTracker.setScreenName("Backup Fragment");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        super.onResume();
+    }
     @Override
     public void onItemClick(int position, final String packageName ,String message, final String applicationLabel) {
         if(message.equals("delete"))

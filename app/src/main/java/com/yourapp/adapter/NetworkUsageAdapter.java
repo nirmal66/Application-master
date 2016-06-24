@@ -26,13 +26,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yourapp.businesslogic.CustomNetworkUsage;
-import com.yourapp.businesslogic.CustomUsageStats;
 import com.yourapp.myapplication.R;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

@@ -22,4 +22,6 @@ Use My Data Manager to track how much data you use, monitor what apps are using 
         for this app through Settings > Security > Apps with usage access
     </string>
     <string name="internet_connection">No internet connection!!!</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

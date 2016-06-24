@@ -26,7 +26,10 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.yourapp.adapter.UsageListAdapter;
+import com.yourapp.businesslogic.AnalyticsApplication;
 import com.yourapp.businesslogic.CustomUsageStats;
 import com.yourapp.myapplication.R;
 
@@ -47,6 +50,7 @@ public class AppUsageStatisticsFragment extends Fragment {
     private CoordinatorLayout coordinatorLayout;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Tracker mTracker;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,11 +102,16 @@ public class AppUsageStatisticsFragment extends Fragment {
 
             }
         });
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication)getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
 
     }
 
     @Override
     public void onResume() {
+        mTracker.setScreenName("APP Usage Statistics Fragment");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         super.onResume();
         Log.d("on resume view pager", "resume");
     }
