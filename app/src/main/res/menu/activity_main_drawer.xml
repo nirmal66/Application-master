@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/grp1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_backup_and_restore"
+            android:icon="@drawable/data_backup"
+            android:title="Backup and Restore" />
+        <item
+            android:id="@+id/nav_storge"
+            android:icon="@drawable/storage"
+            android:title="Storage" />
+        <item
+            android:id="@+id/nav_application"
+            android:icon="@drawable/application"
+            android:title="Application" />
+
+        <item
+            android:id="@+id/nav_move_to_sd_card"
+            android:icon="@drawable/movetosd"
+            android:title="Move to SD card" />
+    </group>
+    <group
+        android:id="@+id/grp2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_app_usage"
+            android:icon="@drawable/app_usage"
+            android:title="App Usage" />
+        <item
+            android:id="@+id/nav_data_usage"
+            android:icon="@drawable/data_usage"
+            android:title="Data Usage" />
+        <item
+            android:id="@+id/nav_running_apps"
+            android:icon="@drawable/ruuningapps"
+            android:title="Running Apps" />
+    </group>
+    <item
+        android:id="@+id/nav_exit"
+        android:icon="@drawable/quit"
+        android:title="Exit" />
+
+</menu>

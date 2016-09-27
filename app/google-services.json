@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "140591240013",
+    "project_id": "application-master-481ab"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140591240013:android:6f67d9283dd9c287",
+        "android_client_info": {
+          "package_name": "com.yourapp.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKnVfwi6btpcq19Frayb1bfsG3rAVyEhs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-57674508-2"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

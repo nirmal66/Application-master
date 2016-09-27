@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="MPAndroidChart-Realm-v1.1.0">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../MPChartExample/build/intermediates/exploded-aar/com.github.PhilJay/MPAndroidChart-Realm/v1.1.0/res" />
+      <root url="jar://$PROJECT_DIR$/../MPChartExample/build/intermediates/exploded-aar/com.github.PhilJay/MPAndroidChart-Realm/v1.1.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart-Realm/v1.1.0/f65452ce0b1ec1b6eb35348e7529d3506a598926/MPAndroidChart-Realm-v1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
