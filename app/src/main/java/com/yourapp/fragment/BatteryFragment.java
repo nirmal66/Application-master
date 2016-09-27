@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,16 +17,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.yourapp.adapter.MyBatteryAdapter;
 import com.yourapp.myapplication.BatteryStatus;
 import com.yourapp.myapplication.HomeActivity;
 import com.yourapp.myapplication.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BatteryFragment extends Fragment {
 
     private Toolbar mToolbar;
-    private DonutProgress donutProgress;
+    // private DonutProgress donutProgress;
+    private PieChart mChart;
     private int level;
     private FloatingActionButton settings;
     private RecyclerView mRecyclerView;
@@ -33,6 +43,8 @@ public class BatteryFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private String title[] = {"Connected Via:", "Status:", "Voltage:", "Temperature:", "Last plugin status:", "Last plugout status:"};
     private String detail[];
+    private static final long KILOBYTE = 1024;
+
 
     @Nullable
     @Override
@@ -43,7 +55,7 @@ public class BatteryFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        donutProgress = (DonutProgress) view.findViewById(R.id.donut_progress);
+        // donutProgress = (DonutProgress) view.findViewById(R.id.donut_progress);
         settings = (FloatingActionButton) view.findViewById(R.id.fab);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
@@ -55,7 +67,21 @@ public class BatteryFragment extends Fragment {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mChart = (PieChart) view.findViewById(R.id.chart1);
+        mChart.setUsePercentValues(false);
+        mChart.setDescription("");
 
+
+        mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        Legend l = mChart.getLegend();
+        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setYOffset(0f);
+
+        // entry label styling
+        mChart.setEntryLabelColor(Color.WHITE);
+        mChart.setEntryLabelTextSize(14f);
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,8 +104,8 @@ public class BatteryFragment extends Fragment {
             BatteryStatus bs = new BatteryStatus(ctxt);
 //battery level
             level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-            donutProgress.setProgress(level);
-
+            //   donutProgress.setProgress(level);
+            setData(level);
             //battery info
             int plugged = intent.getIntExtra("plugged", -1);
             int health = intent.getIntExtra("health", 0);
@@ -88,7 +114,7 @@ public class BatteryFragment extends Fragment {
             int temperature = intent.getIntExtra("temperature", 0);
 
 
-            detail = new String[]{getPlugTypeString(plugged), getStatusString(status), (float)voltage/1000 + " V", (float)temperature/10 + " C", bs.getlastPlugin(), bs.getlastPlugout()};
+            detail = new String[]{getPlugTypeString(plugged), getStatusString(status), (float) voltage / 1000 + " V", (float) temperature / 10 + " C", bs.getlastPlugin(), bs.getlastPlugout()};
 
             // specify an adapter (see also next example)
             mAdapter = new MyBatteryAdapter(title, detail);
@@ -163,6 +189,44 @@ public class BatteryFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setData(int level) {
+
+        List<PieEntry> entries = new ArrayList<>();
+        if (level > 90 && level != 100) {
+            entries.add(new PieEntry(level, "Happy"));
+            mChart.setMaxAngle(355);
+        } else if (level > 75 && level <= 90) {
+            entries.add(new PieEntry(level, "Healthy life"));
+            mChart.setMaxAngle(315);
+        } else if (level > 50 && level <= 75) {
+            entries.add(new PieEntry(level, "Good life"));
+            mChart.setMaxAngle(225);
+        } else if (level > 25 && level <= 50) {
+            entries.add(new PieEntry(level, "Dying"));
+            mChart.setMaxAngle(180);
+        } else if (level > 10 && level <= 25) {
+            entries.add(new PieEntry(level, "Help me"));
+            mChart.setMaxAngle(45);
+        } else if (level > 5 && level <= 10) {
+            entries.add(new PieEntry(level, "Bye"));
+            mChart.setMaxAngle(25);
+        } else if (level <= 5) {
+            entries.add(new PieEntry(level, "Almost Died"));
+            mChart.setMaxAngle(15);
+        } else {
+            entries.add(new PieEntry(level, "Awesome"));
+            mChart.setMaxAngle(360);
+        }
+
+        PieDataSet set = new PieDataSet(entries, "Battery Master");
+        set.setColor(getResources().getColor(R.color.colorAccent));
+        PieData data = new PieData(set);
+        data.setValueTextSize(12f);
+        data.setValueTextColor(Color.WHITE);
+        mChart.setData(data);
+        mChart.invalidate(); // refresh
     }
 
 }

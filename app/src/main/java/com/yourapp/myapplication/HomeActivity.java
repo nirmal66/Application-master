@@ -28,6 +28,7 @@ import com.yourapp.fragment.BatteryFragment;
 import com.yourapp.fragment.MovetoSDCardFragment;
 import com.yourapp.fragment.NetworkUsageFragment;
 import com.yourapp.fragment.RunningAppFragment;
+import com.yourapp.fragment.StorageFragment;
 import com.yourapp.fragment.TutorialFragment;
 
 //MySlidingAdapter.OnSlidingClickInterface
@@ -56,6 +57,8 @@ public class HomeActivity extends ActionBarActivity implements NavigationView.On
     public void onBackPressed() {
         // super.onBackPressed();
         Log.d("backFragment", tag);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.navigation_drawer);
+        drawer.openDrawer(GravityCompat.START);
 /*        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.navigation_drawer);
 
         if (tag.equals("Main_Activity")) {
@@ -100,6 +103,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationView.On
             navItem.setVisible(false);
             navItem.setEnabled(false);
         }
+
 //Action bar
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -236,6 +240,8 @@ public class HomeActivity extends ActionBarActivity implements NavigationView.On
 
         if (id == R.id.nav_backup_and_restore) {
             loader(new BackupRestoreFragment());
+        } else if (id == R.id.nav_storge) {
+            loader(new StorageFragment());
         } else if (id == R.id.nav_application) {
             loader(new ApplicationFragment());
         } else if (id == R.id.nav_move_to_sd_card) {

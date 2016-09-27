@@ -20,11 +20,12 @@ import com.google.android.gms.analytics.Tracker;
 import com.yourapp.adapter.BackupAppAdapter;
 import com.yourapp.businesslogic.AnalyticsApplication;
 import com.yourapp.businesslogic.OnClickInterface;
+import com.yourapp.businesslogic.Utilities;
 import com.yourapp.myapplication.R;
 
 import java.io.File;
 
-public class BackupAppFragment extends Fragment implements OnClickInterface{
+public class BackupAppFragment extends Fragment implements OnClickInterface {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -32,11 +33,9 @@ public class BackupAppFragment extends Fragment implements OnClickInterface{
     private TextView backup;
     private ImageView backupIcon;
     private Tracker mTracker;
-
-    File folder = new File(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster/");
-    File[] mappList = folder.listFiles();
-
-
+    private Utilities utilities = new Utilities();
+    File folder;
+    File[] mappList;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,11 +47,20 @@ public class BackupAppFragment extends Fragment implements OnClickInterface{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new BackupAppAdapter(mappList, getActivity(),this);
+        if(utilities.isExternalStorageWritable())
+        {
+            folder  = new File(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster/");
+        }
+        else
+        {
+            folder  = new File(Environment.getDataDirectory().toString() + "/BatteryMaster/");
+        }
+        mappList =  folder.listFiles();
+        mAdapter = new BackupAppAdapter(mappList, getActivity(), this);
         Log.d("oncreate", "create running");
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view_app);
-        backup =(TextView)view.findViewById(R.id.no_backup);
-        backupIcon = (ImageView)view.findViewById(R.id.no_backup_ic);
+        backup = (TextView) view.findViewById(R.id.no_backup);
+        backupIcon = (ImageView) view.findViewById(R.id.no_backup_ic);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -60,7 +68,7 @@ public class BackupAppFragment extends Fragment implements OnClickInterface{
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        if (mappList!= null) {
+        if (mappList != null) {
             mRecyclerView.setAdapter(mAdapter);
             backup.setVisibility(View.GONE);
             backupIcon.setVisibility(View.GONE);
@@ -72,7 +80,7 @@ public class BackupAppFragment extends Fragment implements OnClickInterface{
         }
 
         // Obtain the shared Tracker instance.
-        AnalyticsApplication application = (AnalyticsApplication)getActivity().getApplication();
+        AnalyticsApplication application = (AnalyticsApplication) getActivity().getApplication();
         mTracker = application.getDefaultTracker();
     }
 
@@ -86,7 +94,12 @@ public class BackupAppFragment extends Fragment implements OnClickInterface{
     @Override
     public void onItemClick(int position, String fileName, String message, String applicationLabel) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/BatteryMaster/" + fileName)), "application/vnd.android.package-archive");
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        if (utilities.isExternalStorageWritable()) {
+            intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/BatteryMaster/" + fileName)), "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(new File(Environment.getDataDirectory() + "/BatteryMaster/" + fileName)), "application/vnd.android.package-archive");
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().startActivity(intent);
     }

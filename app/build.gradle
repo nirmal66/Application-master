@@ -8,8 +8,8 @@ android {
         applicationId "com.yourapp.batterystatus"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 21
-        versionName "1.21"
+        versionCode 24
+        versionName "1.24"
     }
     buildTypes {
         release {
@@ -28,4 +28,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.jaredrummler:android-processes:1.0.7'
     compile 'com.google.android.gms:play-services-analytics:7.3.0'
+    compile project(':MPChartLib')
 }

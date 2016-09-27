@@ -2,9 +2,7 @@ package com.yourapp.adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yourapp.businesslogic.OnClickInterface;
+import com.yourapp.businesslogic.Utilities;
 import com.yourapp.myapplication.R;
 
 import java.io.File;
@@ -27,6 +26,7 @@ public class BackupAppAdapter extends RecyclerView.Adapter<BackupAppAdapter.Cust
     private File[] mappList;
     private Context context;
     private OnClickInterface mClickInterface;
+    private Utilities utilities = new Utilities();
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -67,7 +67,15 @@ public class BackupAppAdapter extends RecyclerView.Adapter<BackupAppAdapter.Cust
     public void onBindViewHolder(BackupAppAdapter.CustomViewHolder holder, final int position) {
         final String fileName = mappList[position].getName();
         holder.title.setText(fileName.substring(0, fileName.lastIndexOf(".")));
-        PackageInfo info = context.getPackageManager().getPackageArchiveInfo(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster/"+fileName, 0);
+        PackageInfo info;
+        if(utilities.isExternalStorageWritable())
+        {
+             info = context.getPackageManager().getPackageArchiveInfo(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster/"+fileName, 0);
+        }
+        else
+        {
+             info = context.getPackageManager().getPackageArchiveInfo(Environment.getDataDirectory().toString() + "/BatteryMaster/"+fileName, 0);
+        }
         holder.packageSize.setText("Version:" + info.versionName +"");
         holder.icon.setImageDrawable(info.applicationInfo.loadIcon(context.getPackageManager()));
 

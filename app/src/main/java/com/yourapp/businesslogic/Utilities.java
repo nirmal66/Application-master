@@ -55,9 +55,9 @@ public class Utilities {
         //http://stackoverflow.com/a/11150657
         List<PackageInfo> applist = new ArrayList<PackageInfo>();
         for (PackageInfo pInfo : list) {
-            if (pInfo.installLocation ==0||pInfo.installLocation ==2) {
+            if (pInfo.installLocation == 0 || pInfo.installLocation == 2) {
                 // then it can be moved to the SD card
-               // Log.d("test",""+pInfo.installLocation);
+                // Log.d("test",""+pInfo.installLocation);
                 applist.add(pInfo);
             }
         }
@@ -72,7 +72,15 @@ public class Utilities {
     }
 
     public void backupAPK(File file, String fileName, final Context context) throws IOException {
-        File createFolder = new File(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster");
+        File createFolder;
+        if (isExternalStorageWritable()) {
+            createFolder = new File(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster");
+
+        } else {
+            createFolder = new File(Environment.getDataDirectory().toString() + "/BatteryMaster");
+
+
+        }
         if (!createFolder.exists()) {
             createFolder.mkdir();
         }
@@ -84,10 +92,10 @@ public class Utilities {
             createFolder.createNewFile();
         }
         DialogCaller.showDialog(context, "Backup", "Here is your apk file: /BatteryMaster/" + fileName + ".apk", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Log.d("all details", context.getPackageManager().getPackageArchiveInfo(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster/Shoppinglist.apk", 0).toString());
-                        ((HomeActivity) context).fragment(new BackupRestoreFragment(), "App_Fragment");
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Log.d("all details", context.getPackageManager().getPackageArchiveInfo(Environment.getExternalStorageDirectory().toString() + "/BatteryMaster/Shoppinglist.apk", 0).toString());
+                ((HomeActivity) context).fragment(new BackupRestoreFragment(), "App_Fragment");
 
             }
         });
@@ -103,15 +111,13 @@ public class Utilities {
         return (new File(context.getPackageManager().getApplicationInfo(packageName, 0).sourceDir));
     }
 
-    public boolean isConnectingToInternet(Context _context){
+    public boolean isConnectingToInternet(Context _context) {
         ConnectivityManager connectivity = (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null)
-        {
+        if (connectivity != null) {
             NetworkInfo[] info = connectivity.getAllNetworkInfo();
             if (info != null)
                 for (int i = 0; i < info.length; i++)
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                    {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
                         return true;
                     }
 
@@ -136,4 +142,13 @@ public class Utilities {
         Log.d("test****************",""+test);
 
     }*/
+
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/windowBackground"
-    tools:context=".MainActivity">
+   >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <com.github.lzyzsd.circleprogress.DonutProgress
+         <!--   <com.github.lzyzsd.circleprogress.DonutProgress
                 android:id="@+id/donut_progress"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -26,7 +26,14 @@
                 custom:donut_finished_stroke_width="10dp"
                 custom:donut_progress="0"
                 custom:donut_text_color="@color/colorPrimary"
-                custom:donut_unfinished_stroke_width="5dp" />
+                custom:donut_unfinished_stroke_width="5dp" />-->
+
+            custom:donut_unfinished_stroke_width="5dp" />-->
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart1"
+                android:layout_marginTop="10dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp" />
 
             <!-- A RecyclerView with some commonly used attributes -->
             <android.support.v7.widget.RecyclerView
