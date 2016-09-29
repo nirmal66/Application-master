@@ -24,4 +24,5 @@ Use My Data Manager to track how much data you use, monitor what apps are using 
     <string name="internet_connection">No internet connection!!!</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="banner_ad_unit_id">ca-app-pub-9020387820767106/3774744670</string>
 </resources>

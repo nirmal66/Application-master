@@ -18,6 +18,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.yourapp.businesslogic.AnalyticsApplication;
@@ -45,6 +48,8 @@ public class HomeActivity extends ActionBarActivity implements NavigationView.On
     private String menuItem;
     String[] mTitles;
     private Tracker mTracker;
+    InterstitialAd mInterstitialAd;
+
 
     @Override
     protected void onResume() {
@@ -169,6 +174,24 @@ public class HomeActivity extends ActionBarActivity implements NavigationView.On
         // Obtain the shared Tracker instance.
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
+
+
+        mInterstitialAd = new InterstitialAd(this);
+
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.banner_ad_unit_id));
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest);
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+               showInterstitial();
+            }
+        });
     }
 
 
@@ -298,5 +321,10 @@ public class HomeActivity extends ActionBarActivity implements NavigationView.On
         }, 1000);
     }
 
+    private void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+    }
 }
 
